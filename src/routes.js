@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import CarList from "./components/carList";
+import CreateCar from "./components/createCar";
 import Header from "./components/header";
 
 const Rotas = () => (
@@ -9,7 +10,7 @@ const Rotas = () => (
 
     <Routes>
       <Route element={<CarList />} path="/" />
-      <Route element={<div>Anúncio</div>} path="/create" />
+      <Route element={<CreateCar />} path="/create" />
       <Route path="/car">
         <Route element={<div>Detalhes sobre o carro</div>} path="1" />
         <Route element={<div>Editar carro</div>} path="1/edit" />
