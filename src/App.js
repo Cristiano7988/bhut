@@ -3,7 +3,6 @@ import Rotas from './routes.js';
 
 const App = () => (
   <div className="App">
-      <header className="App-header"></header>
       <Rotas />
     </div>
 )

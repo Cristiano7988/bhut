@@ -10,6 +10,16 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+
+    ul {
+      display: flex;
+      width: 100vw;
+      padding: unset;
+      margin: unset;
+      li {
+        padding: 20px;
+      }
+    }
   }
 
   &-link {
@@ -18,5 +28,10 @@
 
   li {
     list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
   }
 }
