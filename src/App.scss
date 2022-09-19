@@ -22,6 +22,26 @@
     }
   }
 
+  input {
+    margin: 10px;
+  }
+
+  .success, .fail {
+    display: inline-flex;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .success {
+    background-color: green;
+  }
+
+  .fail {
+    background-color: red;
+  }
+
   &-link {
     color: #61dafb;
   }
