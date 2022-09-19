@@ -1,13 +1,11 @@
-import CarList from './components/carList';
 import './App.scss';
+import Rotas from './routes.js';
 
-function App() {
-  return (
-    <div className="App">
+const App = () => (
+  <div className="App">
       <header className="App-header"></header>
-      <CarList />
+      <Rotas />
     </div>
-  );
-}
+)
 
 export default App;
