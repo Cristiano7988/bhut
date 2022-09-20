@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { FaEdit, FaEye } from 'react-icons/fa';
 
 class CarList extends Component {
   constructor() {
     super();
     this.state = {
-        cars: []
-    }
+      cars: [],
+    };
   }
   componentDidMount() {
     this.getCars("cars");
@@ -13,20 +15,28 @@ class CarList extends Component {
   getCars(endpoint) {
     fetch(`http://api-test.bhut.com.br:3000/api/${endpoint}`)
       .then((r) => (r.ok ? r.json() : false))
-      .then((r) => this.setState({cars: r}))
+      .then((r) => this.setState({ cars: r }))
       .catch((e) => console.log("Error", e));
   }
   render() {
-    return <div>
-        {this.state.cars.map(({_id, title, brand, price, age}) => {
-            return <ul key={_id}>
-              <li><b>{title}</b></li>
-              <li>Marca: {brand}</li>
-              <li>Ano: {age}</li>
-              <li>Preço: {price}</li>
-            </ul>
-        })}
-    </div>;
+    return (
+      <div className="carList">
+        <h1>Carros Disponíveis</h1>
+        <ul>
+          {this.state.cars.map(({ _id, title }) => {
+            return (
+              <li key={_id}>
+                <span>{title}</span>
+                <div className="icons">
+                  <Link className="icon" to={"/car/" + _id + "/edit"}><FaEdit /></Link>
+                  <Link className="icon" to={"/car/" + _id}><FaEye /></Link>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
   }
 }
 

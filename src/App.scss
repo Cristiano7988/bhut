@@ -11,6 +11,10 @@
     font-size: calc(10px + 2vmin);
     color: white;
 
+    a {
+      color: white;
+    }
+
     ul {
       display: flex;
       width: 100vw;
@@ -52,6 +56,33 @@
 
   a {
     text-decoration: none;
-    color: white;
+  }
+
+  .carList {
+    li {
+      display: flex;
+      justify-content: space-between;
+      width: 400px;
+      margin: auto;
+
+      span {
+        text-align: left;
+        word-break: break-all;
+      }
+
+      a {
+        color: #282c34;
+  
+        &.icon {
+          margin: 5px
+        }
+      }
+    }
+  }
+
+  .car {
+    &-item {
+      text-transform: capitalize;
+    }
   }
 }
