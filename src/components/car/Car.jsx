@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const defaultMessage = {
@@ -13,18 +13,19 @@ const randomImage = () => {
     "https://i.pinimg.com/564x/05/90/be/0590be27179342fdf898f784a0e9e9d7.jpg",
     "https://i.pinimg.com/564x/90/e5/0f/90e50f73f180308e5ead474c0a4ad35b.jpg",
     "https://i.pinimg.com/564x/9b/f8/28/9bf828a150d2b2896eb895cf513da126.jpg",
-    "https://i.pinimg.com/564x/ef/be/dd/efbedda0325b3557001773a99f704694.jpg"
-  ]
+    "https://i.pinimg.com/564x/ef/be/dd/efbedda0325b3557001773a99f704694.jpg",
+  ];
 
-  return images[Math.floor(Math.random() * (images.length - 1))]   
-}
+  return images[Math.floor(Math.random() * (images.length - 1))];
+};
 
 const Car = (props) => {
   const { id } = useParams();
   const [car, setCar] = useState({});
   const [message, setMessage] = useState(defaultMessage);
 
-  const getCar = () => {
+  useEffect(() => {
+    if (car.title) return;
     setMessage(defaultMessage);
 
     fetch(`http://api-test.bhut.com.br:3000/api/cars/${id}`)
@@ -45,8 +46,8 @@ const Car = (props) => {
           show: true,
         })
       );
-  };
-
+  });
+  
   const handleChange = (e) => {
     let newCar = {};
     newCar[e.target.name] = e.target.value;
@@ -121,8 +122,7 @@ const Car = (props) => {
             <div
               className="car-image"
               style={{
-                backgroundImage:
-                  `url(${randomImage()})`,
+                backgroundImage: `url(${randomImage()})`,
               }}
             />
             <ul>
@@ -139,8 +139,6 @@ const Car = (props) => {
           </div>
         )
       )}
-      {!car.title && <button onClick={getCar}>Carregar dados</button>}
-      <br />
       {message.show && <div className={message.type}>{message.text}</div>}
     </div>
   );
