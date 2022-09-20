@@ -48,7 +48,7 @@ class CreateCar extends Component {
       .then((r) =>
         r ? this.setState({
           message: {
-            text: `${r.brand} anunciado com sucesso!`,
+            text: `"${r.title}" anunciado com sucesso!`,
             show: true,
             type: "success",
           },
@@ -77,11 +77,12 @@ class CreateCar extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="car-create">
+        <h1>Desapegue, anuncie agora!</h1>
         <form onSubmit={this.handleSubmit}>
           {Object.keys(this.state.car).map((field, id) => 
-            <div key={id}>
-              <label htmlFor={field}>{field}</label>
+            <div className="car-item-wrapper" key={id}>
+              <label className="car-item" htmlFor={field}>{field}:</label>
               <input
                 id={field}
                 name={field}
@@ -92,7 +93,9 @@ class CreateCar extends Component {
               />
             </div>
           )}
-          <button type="submit">Anunciar</button>
+          <div className="car-item-wrapper" style={{textAlign: "right", position: "relative"}}>
+            <button type="submit">Anunciar</button>
+          </div>
         </form>
         {this.state.message.show && (
           <div className={this.state.message.type}>

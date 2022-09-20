@@ -13,6 +13,12 @@
 
     a {
       color: white;
+      padding: 20px;
+
+      &:hover {
+        background: white;
+        color:#282c34;
+      }
     }
 
     ul {
@@ -20,8 +26,9 @@
       width: 100vw;
       padding: unset;
       margin: unset;
+
       li {
-        padding: 20px;
+        display: flex;
       }
     }
   }
@@ -33,7 +40,7 @@
   .success, .fail {
     display: inline-flex;
     padding: 10px;
-    margin: 10px;
+    margin: 50px;
     border-radius: 5px;
     color: white;
   }
@@ -78,27 +85,84 @@
           color: #282c34;
     
           &.icon {
-            margin: 5px
+            margin: 5px;
+            padding: 2.5px 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+          }
+
+          &.icon:hover {
+            color: white;
+            background: #282c34;
           }
 
           &.delete {
             color: white;
             background: red;
-            padding: 2.5px 10px;
-            border-radius: 5px;
 
             & svg {
               width: 10px;
             }
+          }
+
+          &.delete:hover {
+            color: red;
+            background: white;
           }
         }
       }
     }
   }
 
+  .car-create {
+    [type=submit] {
+      position: absolute;
+      right: 0;
+      margin: 10px;
+    }
+  
+    .car-item-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      width: 50%;
+      max-width: 300px;
+      margin: auto;
+    }
+  }
+
   .car {
+    ul {
+      text-align: left;
+      margin: unset;
+    }
+
+    &-field {
+      width: 50%;
+      max-width: 300px;  
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
     &-item {
       text-transform: capitalize;
+    }
+
+    &-card {
+      display: inline-flex;
+      margin: auto;
+    }
+
+    &-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      background-position: center;
+      background-size: cover;
+      box-shadow: 5px 5px 10px black;
     }
   }
 }
