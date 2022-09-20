@@ -2,7 +2,7 @@
 
 ## Passos Básicos
 
-git clone
+git clone \
 cd bhut
 
 ## Na pasta do projeto execute os seguintes comandos no terminal:
