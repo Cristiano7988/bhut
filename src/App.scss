@@ -1,3 +1,6 @@
+html {
+  overflow-x: hidden;
+}
 .App {
   text-align: center;
 
@@ -72,11 +75,16 @@
       width: 400px;
       margin: auto;
 
+      &:nth-child(odd) {
+        background: ghostwhite;
+      }
+
       span {
         text-align: left;
         word-break: break-all;
+        align-self: center;
       }
-
+ 
       .icons {
         min-width: 55px;
         display: inline-flex;
@@ -163,6 +171,23 @@
       background-position: center;
       background-size: cover;
       box-shadow: 5px 5px 10px black;
+    }
+  }
+
+  footer {
+    height: 45vh;
+    background: darkkhaki;
+    margin-top: 50px;
+    display: block;
+
+    .back-button {
+      color: white;
+      background: #282c34;
+      padding: 10px 20px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: self-end;
+      margin: 40px;
     }
   }
 }
