@@ -15,7 +15,6 @@ class CarList extends Component {
       cars: [],
       message,
     };
-    this.deleteCar = this.deleteCar.bind(this);
   }
   componentDidMount() {
     this.getCars("cars");
@@ -26,8 +25,7 @@ class CarList extends Component {
       .then((r) => this.setState({ cars: r }))
       .catch((e) => console.log("Error", e));
   }
-  deleteCar(e) {
-    const { id, title } = e.target.dataset;
+  deleteCar(e, title, id) {
     if (window.confirm(`Deseja excluir o produto "${title}"? `)) {
       fetch(`http://api-test.bhut.com.br:3000/api/cars/${id}`, {
         method: "DELETE",
@@ -46,7 +44,7 @@ class CarList extends Component {
             : this.setState({
                 message: {
                   type: "fail",
-                  text: `Não foi possível excluir "${title}"!`,
+                  text: `Não foi possível excluir "${r.title}"!`,
                   show: true,
                 },
               })
@@ -55,7 +53,7 @@ class CarList extends Component {
           this.setState({
             message: {
               type: "fail",
-              text: `Não foi possível excluir "${title}"!`,
+              text: `Não foi possível excluir este produto!`,
               show: true,
             },
           })
@@ -85,7 +83,7 @@ class CarList extends Component {
                       data-title={title}
                       className="icon delete"
                       children={<FaTrash />}
-                      onClick={this.deleteCar}
+                      onClick={(e) => this.deleteCar(e, title, _id)}
                     />
                   </div>
                 </li>
