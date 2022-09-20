@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import Message from "../message";
 
 const message = {
   type: "",
@@ -93,11 +94,7 @@ class CarList extends Component {
         ) : (
           <div>Nenhum produto cadastrado</div>
         )}
-        {this.state.message.show && (
-          <div className={this.state.message.type}>
-            {this.state.message.text}
-          </div>
-        )}
+        {<Message content={this.state.message} />}
       </div>
     );
   }

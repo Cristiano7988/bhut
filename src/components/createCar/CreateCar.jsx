@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Message from "../message";
 
 const message = {
   text: "",
@@ -97,11 +98,7 @@ class CreateCar extends Component {
             <button type="submit">Anunciar</button>
           </div>
         </form>
-        {this.state.message.show && (
-          <div className={this.state.message.type}>
-            {this.state.message.text}
-          </div>
-        )}
+        {<Message content={this.state.message} />}
       </div>
     );
   }

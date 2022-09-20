@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Message from "../message";
 
 const defaultMessage = {
   type: "",
@@ -139,7 +140,7 @@ const Car = (props) => {
           </div>
         )
       )}
-      {message.show && <div className={message.type}>{message.text}</div>}
+      {<Message content={message} />}
     </div>
   );
 };
