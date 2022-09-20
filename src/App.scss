@@ -70,11 +70,27 @@
         word-break: break-all;
       }
 
-      a {
-        color: #282c34;
-  
-        &.icon {
-          margin: 5px
+      .icons {
+        min-width: 55px;
+        display: inline-flex;
+        
+        a {
+          color: #282c34;
+    
+          &.icon {
+            margin: 5px
+          }
+
+          &.delete {
+            color: white;
+            background: red;
+            padding: 2.5px 10px;
+            border-radius: 5px;
+
+            & svg {
+              width: 10px;
+            }
+          }
         }
       }
     }
