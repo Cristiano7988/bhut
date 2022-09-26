@@ -2,99 +2,104 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import Message from "../message";
-
-const message = {
-  type: "",
-  text: "",
-  show: false,
-};
+import FetchData from "../../tools/FetchData";
 
 class CarList extends Component {
   constructor() {
     super();
     this.state = {
       cars: [],
-      message,
+      message: {},
     };
   }
   componentDidMount() {
-    this.getCars("cars");
-  }
-  getCars(endpoint) {
-    fetch(`http://api-test.bhut.com.br:3000/api/${endpoint}`)
-      .then((r) => (r.ok ? r.json() : false))
-      .then((r) => this.setState({ cars: r }))
-      .catch((e) => console.log("Error", e));
+    FetchData({})
+      .then((cars) => {
+        if (!cars.length) throw new Error("Não há carros disponíveis!");
+
+        this.setState({ cars });
+      })
+      .catch(({ message }) =>
+        this.setState({
+          message: {
+            text: message,
+            show: true,
+            type: "fail",
+          },
+        })
+      );
   }
   deleteCar(e, title, id) {
-    if (window.confirm(`Deseja excluir o produto "${title}"? `)) {
-      fetch(`http://api-test.bhut.com.br:3000/api/cars/${id}`, {
-        method: "DELETE",
+    if (!window.confirm(`Deseja excluir o produto "${title}"? `)) return;
+
+    FetchData({ id, config: { method: "DLETE" } })
+      .then(({ title, _id }) => {
+        if (!_id) throw new Error(`Não foi possível excluir "${title}"!`);
+
+        this.setState({
+          cars: this.state.cars.filter((car) => car._id !== _id),
+          message: {
+            type: "success",
+            text: `Produto "${title}" excluído!`,
+            show: true,
+          },
+        });
       })
-        .then((r) => (r.ok ? r.json() : false))
-        .then((r) =>
-          r
-            ? this.setState({
-                cars: this.state.cars.filter((car) => car._id !== r._id),
-                message: {
-                  type: "success",
-                  text: `Produto "${r.title}" excluído!`,
-                  show: true,
-                },
-              })
-            : this.setState({
-                message: {
-                  type: "fail",
-                  text: `Não foi possível excluir "${r.title}"!`,
-                  show: true,
-                },
-              })
-        )
-        .catch((e) =>
-          this.setState({
-            message: {
-              type: "fail",
-              text: `Não foi possível excluir este produto!`,
-              show: true,
-            },
-          })
-        )
-        .then(() => setTimeout(() => this.setState({ message }), 4000));
-    }
+      .catch(({ message }) =>
+        this.setState({
+          message: {
+            type: "fail",
+            text: message,
+            show: true,
+          },
+        })
+      )
+      .then(() => setTimeout(() => this.setState({ message: {} }), 4000));
   }
   render() {
+    const { cars, message } = this.state;
+
+    const links = [
+      {
+        url: "/edit",
+        icon: <FaEdit />,
+      },
+      {
+        icon: <FaEye />,
+      },
+      {
+        className: "delete",
+        icon: <FaTrash />
+      }
+    ];
+
     return (
       <div className="carList">
         <h1>Carros Disponíveis</h1>
-        {this.state.cars.length ? (
+        {message.type !== "fail" && (
           <ul>
-            {this.state.cars.map(({ _id, title }) => {
-              return (
-                <li key={_id}>
-                  <span>{title}</span>
-                  <div className="icons">
-                    <Link className="icon" to={"/car/" + _id + "/edit"}>
-                      <FaEdit />
-                    </Link>
-                    <Link className="icon" to={"/car/" + _id}>
-                      <FaEye />
-                    </Link>
-                    <Link
-                      data-id={_id}
-                      data-title={title}
-                      className="icon delete"
-                      children={<FaTrash />}
-                      onClick={(e) => this.deleteCar(e, title, _id)}
-                    />
-                  </div>
-                </li>
-              );
-            })}
+            {cars.map(({ _id, title }) => (
+              <li key={_id}>
+                <span>{title}</span>
+                <div
+                  className="icons"
+                  children={
+                    links.map(({className = "", url = "", icon}, index) => (
+                      <Link
+                        key={index}
+                        children={icon}
+                        className={"icon " + className}
+                        to={(className !== "delete") && "/car/" + _id + url}
+                        onClick={(e) => (className === "delete") && this.deleteCar(e, title, _id)}
+                      />
+                    ))
+                  }
+                />
+              </li>
+            ))}
           </ul>
-        ) : (
-          <div>Nenhum produto cadastrado</div>
         )}
-        {<Message content={this.state.message} />}
+        {<Message content={message} />}
       </div>
     );
   }

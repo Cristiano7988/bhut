@@ -1,24 +1,13 @@
 import React, { Component } from "react";
 import Message from "../message";
-
-const message = {
-  text: "",
-  type: "",
-  show: false,
-};
-
-const car = {
-  title: "",
-  brand: "",
-  price: "",
-  age: 0,
-};
+import car from "../../dados/CarDefault"; 
+import FetchData from "../../tools/FetchData";
 
 class CreateCar extends Component {
   constructor() {
     super();
     this.state = {
-      message,
+      message: {},
       car,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -33,21 +22,24 @@ class CreateCar extends Component {
         ...this.state.car,
         ...newCar,
       },
-      message,
+      message: {},
     });
   }
   handleSubmit(e) {
-    fetch("http://api-test.bhut.com.br:3000/api/cars", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(this.state.car),
+    FetchData({
+      config: {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(this.state.car)
+      }
     })
-      .then((r) => (r.ok ? r.json() : false))
-      .then((r) =>
-        r ? this.setState({
+      .then((r) => {
+        if (!r) throw new Error("Infelizmente o anúncio não foi enviado!")
+     
+        this.setState({
           message: {
             text: `"${r.title}" anunciado com sucesso!`,
             show: true,
@@ -55,19 +47,11 @@ class CreateCar extends Component {
           },
           car,
         })
-        : this.setState({
-          message: {
-            text: "Infelizmente o anúncio não foi enviado!",
-            show: true,
-            type: "fail",
-          },
-          car,
-        })
-      )
-      .catch((e) =>
+      })
+      .catch(({ message }) =>
         this.setState({
           message: {
-            text: "Infelizmente o anúncio não foi enviado!",
+            text: message,
             show: true,
             type: "fail",
           },
@@ -77,11 +61,13 @@ class CreateCar extends Component {
     e.preventDefault();
   }
   render() {
+    const { message, car } = this.state
+
     return (
       <div className="car-create">
         <h1>Desapegue, anuncie agora!</h1>
         <form onSubmit={this.handleSubmit}>
-          {Object.keys(this.state.car).map((field, id) => 
+          {Object.keys(car).map((field, id) => 
             <div className="car-item-wrapper" key={id}>
               <label className="car-item" htmlFor={field}>{field}:</label>
               <input
@@ -89,7 +75,7 @@ class CreateCar extends Component {
                 name={field}
                 type={field === "age" ? "number" : "text"}
                 onChange={this.handleChange}
-                value={this.state.car[field]}
+                value={car[field]}
                 required
               />
             </div>
@@ -98,7 +84,7 @@ class CreateCar extends Component {
             <button type="submit">Anunciar</button>
           </div>
         </form>
-        {<Message content={this.state.message} />}
+        {<Message content={message} />}
       </div>
     );
   }

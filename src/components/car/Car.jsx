@@ -1,49 +1,27 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Message from "../message";
+import RandomImage from "../../dados/RandomCarImage";
+import FetchData from "../../tools/FetchData";
 
-const defaultMessage = {
-  type: "",
-  show: false,
-  text: "",
-};
-
-const randomImage = () => {
-  const images = [
-    "https://i.pinimg.com/564x/76/6f/b8/766fb8f2ecde74af3a7ad8ab917ad9b8.jpg",
-    "https://i.pinimg.com/564x/05/90/be/0590be27179342fdf898f784a0e9e9d7.jpg",
-    "https://i.pinimg.com/564x/90/e5/0f/90e50f73f180308e5ead474c0a4ad35b.jpg",
-    "https://i.pinimg.com/564x/9b/f8/28/9bf828a150d2b2896eb895cf513da126.jpg",
-    "https://i.pinimg.com/564x/ef/be/dd/efbedda0325b3557001773a99f704694.jpg",
-  ];
-
-  return images[Math.floor(Math.random() * (images.length - 1))];
-};
-
-const Car = (props) => {
+const Car = ({ type }) => {
   const { id } = useParams();
   const [car, setCar] = useState({});
-  const [message, setMessage] = useState(defaultMessage);
+  const [message, setMessage] = useState({});
 
   useEffect(() => {
-    if (car.title) return;
-    setMessage(defaultMessage);
+    if (car.title || message.show) return;
 
-    fetch(`http://api-test.bhut.com.br:3000/api/cars/${id}`)
-      .then((r) => (r.ok ? r.json() : false))
-      .then((r) =>
-        r
-          ? (delete r._id, delete r.__v, setCar(r))
-          : setMessage({
-              type: "fail",
-              text: "Não foi possível carregar os dados deste produto",
-              show: true,
-            })
-      )
-      .catch((e) =>
+    FetchData({ id })
+      .then((r) => {
+        if(r) return (delete r._id, delete r.__v, setCar(r))
+        
+        throw new Error("Não foi possível carregar os dados deste produto")
+      })
+      .catch(({ message }) =>
         setMessage({
           type: "fail",
-          text: "Não foi possível carregar os dados deste produto",
+          text: message,
           show: true,
         })
       );
@@ -57,35 +35,30 @@ const Car = (props) => {
       ...car,
       ...newCar,
     });
-    setMessage(defaultMessage);
+    setMessage({});
   };
 
   const handleSubmit = (e) => {
-    fetch("http://api-test.bhut.com.br:3000/api/cars/" + id, {
+    FetchData({ id, config: {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify(car),
-    })
-      .then((r) => (r.ok ? r.json() : false))
-      .then((r) =>
-        r
-          ? setMessage({
-              text: "Produto Atualizado com Sucesso!",
-              show: true,
-              type: "success",
-            })
-          : setMessage({
-              text: "Infelizmente não foi possível atualizar este produto!",
-              show: true,
-              type: "fail",
-            })
-      )
-      .catch((e) =>
+    }})
+      .then(r =>{
+        if(!r) throw new Error("Infelizmente não foi possível atualizar este produto!")
+
         setMessage({
-          text: "Infelizmente não foi possível atualizar este produto!",
+          text: "Produto Atualizado com Sucesso!",
+          show: true,
+          type: "success",
+        })
+      })
+      .catch(({ message }) => 
+        setMessage({
+          text: message,
           show: true,
           type: "fail",
         })
@@ -96,9 +69,9 @@ const Car = (props) => {
   return (
     <div className="car">
       <h1>
-        {props.type === "edit" && <span>Editar</span>} {car.title}
+        {type === "edit" && <span>Editar</span>} {car.title}
       </h1>
-      {props.type === "edit" ? (
+      {type === "edit" ? (
         <form onSubmit={handleSubmit}>
           {Object.keys(car).map((field, id) => (
             <div className="car-field" key={id}>
@@ -123,7 +96,7 @@ const Car = (props) => {
             <div
               className="car-image"
               style={{
-                backgroundImage: `url(${randomImage()})`,
+                backgroundImage: `url(${RandomImage()})`,
               }}
             />
             <ul>
