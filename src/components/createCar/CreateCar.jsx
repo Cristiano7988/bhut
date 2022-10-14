@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Message from "../Message";
-import car from "../../dados/CarDefault"; 
+import car from "../../dados/CarDefault.json"; 
 import FetchData from "../../tools/FetchData";
 
 class CreateCar extends Component {
