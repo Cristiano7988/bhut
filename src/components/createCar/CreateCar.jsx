@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Message from "../message";
+import Message from "../Message";
 import car from "../../dados/CarDefault"; 
 import FetchData from "../../tools/FetchData";
 

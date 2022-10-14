@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Message from "../message";
+import Message from "../Message";
 import RandomImage from "../../dados/RandomCarImage";
 import FetchData from "../../tools/FetchData";
 

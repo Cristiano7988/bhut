@@ -10,4 +10,4 @@ const RandomImage = () => {
   return images[Math.floor(Math.random() * (images.length - 1))];
 };
 
-export default RandomImage
+export default RandomImage;
