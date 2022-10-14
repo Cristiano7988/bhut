@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import CarList from "./components/carList";
 import CreateCar from "./components/createCar";
 import Car from "./components/car";
@@ -7,7 +7,7 @@ import Header from "./components/header";
 import Footer from "./components/footer/Footer";
 
 const Rotas = () => {
-  return (<Router>
+  return (<Router basename={process.env.PUBLIC_URL}>
     <Header />
 
     <Routes>
