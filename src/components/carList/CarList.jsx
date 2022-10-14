@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import Message from "../message";
+import Message from "../Message";
 import FetchData from "../../tools/FetchData";
 
 class CarList extends Component {

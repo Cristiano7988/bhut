@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
-import CarList from "./components/carList";
-import CreateCar from "./components/createCar";
-import Car from "./components/car";
-import Header from "./components/header";
-import Footer from "./components/footer/Footer";
+import CarList from "./components/CarList";
+import CreateCar from "./components/CreateCar";
+import Car from "./components/Car";
+import Header from "./components/Header";
+import Footer from "./components/Footer/Footer";
 
 const Rotas = () => {
-  return (<Router basename={process.env.PUBLIC_URL}>
+  return (<Router basename="/">
     <Header />
 
     <Routes>

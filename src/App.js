@@ -1,10 +1,10 @@
-import './App.scss';
-import Rotas from './routes.js';
+import "./App.scss";
+import Rotas from "./routes.js";
 
 const App = () => (
   <div className="App">
-      <Rotas />
-    </div>
-)
+    <Rotas />
+  </div>
+);
 
 export default App;
